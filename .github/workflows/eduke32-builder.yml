@@ -1,0 +1,30 @@
+name: EDuke32-builder
+
+on:
+  schedule: 
+    - cron: '30 1 * * 6'
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  multitools:
+    name: EDuke32 builder
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push EDuke32 builder
+        uses: docker/build-push-action@v4
+        with:
+          platforms: linux/amd64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            nyvanga/eduke32-builder:latest
