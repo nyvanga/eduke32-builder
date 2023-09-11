@@ -15,7 +15,7 @@ jobs:
     name: EDuke32 builder
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Docker login
         uses: docker/login-action@v2
         with:
